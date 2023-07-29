@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5.0.0
+    container_name: master
+    ports:
+      - "6379:6379"
+    networks:
+      - redis-replication
+
+  redis-slave:
+    image: redis:5.0.0
+    container_name: slave
+    ports:
+      - "6380:6379"
+    command: redis-server --slaveof master 6379
+    depends_on:
+      - redis
+    networks:
+      - redis-replication
+
+  redis2:
+    image: redis:5.0.0
+    container_name: master2
+    ports:
+      - "6381:6379"
+  redis3:
+    image: redis:5.0.0
+    container_name: master3
+    ports:
+      - "6382:6379"
+  redis4:
+    image: redis:5.0.0
+    container_name: master4
+    ports:
+      - "6383:6379"
+  redis5:
+    image: redis:5.0.0
+    container_name: master5
+    ports:
+      - "6384:6379"
+networks:
+  redis-replication:
+    driver: bridge
